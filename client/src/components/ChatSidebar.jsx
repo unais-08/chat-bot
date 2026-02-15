@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
-import chatService from "../libs/chat_service";
+import toast from "react-hot-toast";
+import { useAuth } from "../features/auth/context/AuthContext";
+import { chatApi } from "../features/chat/api/chatApi";
 import { Spinner } from "../components/Spinner";
-import { toast } from "react-toastify";
 
 const ChatSidebar = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const [state, setState] = useState({
     chats: [],
     isLoading: true,
@@ -21,11 +21,11 @@ const ChatSidebar = () => {
     if (!user) return;
 
     try {
-      const userChats = await chatService.getUserChats(user.id);
+      const userChats = await chatApi.getUserChats();
       setState((prev) => ({
         ...prev,
         chats: userChats.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
         ),
         isLoading: false,
       }));
@@ -48,14 +48,9 @@ const ChatSidebar = () => {
 
       // Generate a more meaningful title or use a default one
 
-      const initialMessage = "Hello, let's start a new chat!";
       const title = `Chat ${state.chats.length + 1}`;
       // Create new chat with a custom title
-      const newChat = await chatService.createChat(
-        user.id,
-        initialMessage,
-        title
-      );
+      const newChat = await chatApi.createChat({ title });
 
       // Update local state
       setState((prev) => ({
@@ -64,7 +59,7 @@ const ChatSidebar = () => {
       }));
 
       // Navigate to new chat
-      navigate(`/dashboard/chats/${newChat._id}`);
+      navigate(`/dashboard/chats/${newChat.id}`);
     } catch (error) {
       console.error("Chat creation failed:", error);
       toast.error("Failed to create new chat");
@@ -146,9 +141,9 @@ const ChatSidebar = () => {
           ) : state.chats.length > 0 ? (
             <ul className="space-y-1">
               {state.chats.map((chat) => (
-                <li key={chat._id} onClick={toggleMobileSidebar}>
+                <li key={chat.id} onClick={toggleMobileSidebar}>
                   <Link
-                    to={`/dashboard/chats/${chat._id}`}
+                    to={`/dashboard/chats/${chat.id}`}
                     className="block p-3 rounded-lg hover:bg-gray-800 transition-colors
                                group relative overflow-hidden"
                   >

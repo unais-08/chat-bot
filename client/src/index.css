@@ -1,13 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  * {
-    @apply m-0 p-0 box-border;
-  }
 
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-  }
+ @theme {
+  --font-poppins: Poppins, sans-serif;
+  --background:"#0e0c16";
+  --foreground:"#ececec";
 }

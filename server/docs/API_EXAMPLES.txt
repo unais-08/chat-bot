@@ -1,0 +1,113 @@
+// API Testing Examples
+// Use with REST clients like Thunder Client, Postman, or curl
+
+const BASE_URL = 'http://localhost:8080/api/v1';
+
+// 1. HEALTH CHECK
+// GET http://localhost:8080/health
+{
+  "success": true,
+  "message": "Server is running"
+}
+
+// 2. REGISTER USER
+// POST {{BASE_URL}}/auth/register
+{
+  "email": "john@example.com",
+  "password": "password123",
+  "name": "John Doe"
+}
+
+// Response:
+{
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "user": {
+      "id": "uuid",
+      "email": "john@example.com",
+      "name": "John Doe"
+    },
+    "token": "jwt_token_here"
+  }
+}
+
+// 3. LOGIN
+// POST {{BASE_URL}}/auth/login
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+// Response: Same as register
+
+// 4. GET CURRENT USER
+// GET {{BASE_URL}}/auth/me
+// Headers: { Authorization: "Bearer <token>" }
+
+// 5. CREATE CHAT
+// POST {{BASE_URL}}/chats
+// Headers: { Authorization: "Bearer <token>" }
+{
+  "title": "My First Chat",
+  "initialMessage": "Hello, how can you help me today?"
+}
+
+// Response:
+{
+  "success": true,
+  "message": "Chat created successfully",
+  "data": {
+    "id": "uuid",
+    "title": "My First Chat",
+    "userId": "uuid",
+    "messages": [
+      {
+        "id": "uuid",
+        "role": "user",
+        "content": "Hello, how can you help me today?",
+        "createdAt": "2026-02-01T..."
+      }
+    ]
+  }
+}
+
+// 6. ADD MESSAGE TO CHAT
+// POST {{BASE_URL}}/chats/:chatId/messages
+// Headers: { Authorization: "Bearer <token>" }
+{
+  "role": "model",
+  "content": "I'm here to help! What would you like to know?"
+}
+
+// 7. GET ALL USER CHATS
+// GET {{BASE_URL}}/chats?limit=20&offset=0
+// Headers: { Authorization: "Bearer <token>" }
+
+// 8. GET SPECIFIC CHAT
+// GET {{BASE_URL}}/chats/:chatId
+// Headers: { Authorization: "Bearer <token>" }
+
+// 9. UPDATE CHAT TITLE
+// PATCH {{BASE_URL}}/chats/:chatId
+// Headers: { Authorization: "Bearer <token>" }
+{
+  "title": "Updated Chat Title"
+}
+
+// 10. DELETE CHAT
+// DELETE {{BASE_URL}}/chats/:chatId
+// Headers: { Authorization: "Bearer <token>" }
+
+// 11. GET CHAT STATISTICS
+// GET {{BASE_URL}}/chats/stats
+// Headers: { Authorization: "Bearer <token>" }
+
+// Response:
+{
+  "success": true,
+  "data": {
+    "totalChats": 5,
+    "totalMessages": 127
+  }
+}

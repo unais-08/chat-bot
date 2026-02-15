@@ -1,7 +1,15 @@
 import HomePage from "./HomePage";
-import DashboardPage from "./DashboardPage";
-import ChatPage from "./ChatPage";
-import SignInPage from "./SignInPage";
-import SignUpPage from "./SignUpPage";
 import ErrorPage from "./ErrorPage";
-export { HomePage, DashboardPage, ChatPage, SignInPage, SignUpPage, ErrorPage };
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
+import NewDashboardPage from "./NewDashboardPage";
+import NewChatPage from "./NewChatPage";
+
+export {
+  HomePage,
+  ErrorPage,
+  LoginPage,
+  RegisterPage,
+  NewDashboardPage,
+  NewChatPage,
+};

@@ -1,9 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
+import { useAuth } from "../features/auth/context/AuthContext";
 
 const HomePage = () => {
   const [typingStatus, setTypingStatus] = useState("human1");
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     <div
@@ -41,14 +52,14 @@ const HomePage = () => {
           ⚠️ Remember: To go back to the home page, click on the logo in the
           top-left corner.
         </p>
-        <Link
-          to="/dashboard"
+        <button
+          onClick={handleGetStarted}
           className="px-6 py-3 bg-[#217bfe] text-white rounded-xl text-sm md:text-base 
                    mt-4 hover:bg-white hover:text-[#217bfe] transition-all duration-300 
                    w-fit"
         >
           Get Started
-        </Link>
+        </button>
       </div>
 
       {/* Right Content Section */}
@@ -84,8 +95,8 @@ const HomePage = () => {
                 typingStatus === "human1"
                   ? "/human1.jpeg"
                   : typingStatus === "human2"
-                  ? "/human2.jpeg"
-                  : "/bot.png"
+                    ? "/human2.jpeg"
+                    : "/bot.png"
               }
               alt="Profile"
               className="w-6 h-6 md:w-8 md:h-8 rounded-full object-cover border-2 
