@@ -1,13 +1,14 @@
 /**
  * New Chat Page Component
  *
- * Handles both new and existing chats
+ * Handles both new and existing chats with proper markdown rendering
  */
 
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useChat } from "../features/chat/hooks/useChat";
 import { Spinner } from "../shared/components/Spinner";
+import Conversation from "../components/Conversation";
 
 const NewChatPage = () => {
   const { chatId } = useParams();
@@ -22,7 +23,7 @@ const NewChatPage = () => {
   // Auto-scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isGenerating]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,8 +86,8 @@ const NewChatPage = () => {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-        {messages.length === 0 ? (
+      <div className="flex-1 overflow-y-auto px-6 py-4">
+        {messages.length === 0 && !isGenerating ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <h2 className="text-2xl font-semibold text-gray-700 mb-2">
@@ -98,47 +99,17 @@ const NewChatPage = () => {
             </div>
           </div>
         ) : (
-          <>
-            {messages.map((message, index) => (
-              <div
-                key={message.id || index}
-                className={`flex ${
-                  message.role === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
-                <div
-                  className={`max-w-3xl px-4 py-3 rounded-lg ${
-                    message.role === "user"
-                      ? "bg-blue-600 text-white"
-                      : "bg-white text-gray-800 border border-gray-200"
-                  }`}
-                >
-                  <p className="whitespace-pre-wrap">{message.content}</p>
-                </div>
-              </div>
-            ))}
-
-            {/* Loading indicator while generating */}
-            {isGenerating && (
-              <div className="flex justify-start">
-                <div className="max-w-3xl px-4 py-3 rounded-lg bg-white border border-gray-200">
-                  <div className="flex items-center space-x-2">
-                    <Spinner size="sm" />
-                    <span className="text-gray-500">Thinking...</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
+          <div className="max-w-4xl mx-auto space-y-4">
+            <Conversation messages={messages} isGenerating={isGenerating} />
             <div ref={messagesEndRef} />
-          </>
+          </div>
         )}
       </div>
 
       {/* Error Display */}
       {error && (
-        <div className="px-6 py-2 bg-red-50 border-t border-red-200">
-          <p className="text-sm text-red-600">{error}</p>
+        <div className="px-6 py-3 bg-red-50 border-t border-red-200">
+          <p className="text-sm text-red-600 font-medium">{error}</p>
         </div>
       )}
 
@@ -152,12 +123,13 @@ const NewChatPage = () => {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your message..."
               disabled={isGenerating}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
+              autoFocus
             />
             <button
               type="submit"
               disabled={!input.trim() || isGenerating}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium whitespace-nowrap"
             >
               {isGenerating ? "Sending..." : "Send"}
             </button>
