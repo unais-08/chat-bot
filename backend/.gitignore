@@ -31,12 +31,3 @@ Thumbs.db
 # Build
 dist/
 build/
-
-
-
-# Old MongoDB files (can be removed after migration)
-db/
-models/
-controllers/
-routes/
-server.js
