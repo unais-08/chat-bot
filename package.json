@@ -1,0 +1,35 @@
+{
+  "name": "chatbot-gpt",
+  "version": "1.0.0",
+  "description": "chatbot webapplication using LLM api to generate reponse",
+  "keywords": [
+    "chatbot",
+    "react",
+    "express",
+    "postgresql",
+    "LLM"
+  ],
+  "license": "EUOL",
+  "type": "module",
+  "scripts": {
+    "frontend:install": "cd frontend && npm install",
+    "backend:install": "cd backend && npm install",
+    "install:all": "npm run frontend:install && npm run backend:install",
+    "frontend:dev": "cd frontend && npm run dev",
+    "backend:dev": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "frontend:build": "cd frontend && npm run build",
+    "backend:start": "cd backend && npm start",
+    "build": "npm run frontend:build",
+    "build:prod": "npm run frontend:build && NODE_ENV=production npm run backend:start",
+    "start": "npm run backend:start",
+    "start:prod": "cd backend && NODE_ENV=production npm start",
+    "db:generate": "cd backend && npm run db:generate",
+    "db:push": "cd backend && npm run db:push",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:studio": "cd backend && npm run db:studio"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
