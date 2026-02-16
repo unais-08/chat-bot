@@ -12,22 +12,10 @@
   "license": "EUOL",
   "type": "module",
   "scripts": {
-    "frontend:install": "cd frontend && npm install",
-    "backend:install": "cd backend && npm install",
-    "install:all": "npm run frontend:install && npm run backend:install",
-    "frontend:dev": "cd frontend && npm run dev",
-    "backend:dev": "cd backend && npm run dev",
-    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
-    "frontend:build": "cd frontend && npm run build",
-    "backend:start": "cd backend && npm start",
-    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
-    "build:prod": "npm run frontend:build && NODE_ENV=production npm run backend:start",
-    "start": "npm run backend:start",
-    "start:prod": "cd backend && NODE_ENV=production npm start",
-    "db:generate": "cd backend && npm run db:generate",
-    "db:push": "cd backend && npm run db:push",
-    "db:migrate": "cd backend && npm run db:migrate",
-    "db:studio": "cd backend && npm run db:studio"
+    "install:all": "cd frontend && npm install && cd ../backend && npm install",
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd backend && npm install && node src/server.js",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
