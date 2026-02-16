@@ -20,7 +20,7 @@
     "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
     "frontend:build": "cd frontend && npm run build",
     "backend:start": "cd backend && npm start",
-    "build": "npm run frontend:build",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
     "build:prod": "npm run frontend:build && NODE_ENV=production npm run backend:start",
     "start": "npm run backend:start",
     "start:prod": "cd backend && NODE_ENV=production npm start",
