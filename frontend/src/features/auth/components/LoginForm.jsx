@@ -184,6 +184,24 @@ export const LoginForm = () => {
           </Link>
         </p>
       </div>
+      {/* Demo Credentials Card */}
+      <div className="mt-6 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 shadow-sm">
+        <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+          Demo Account
+        </p>
+
+        <div className="mt-3 space-y-2 text-sm text-zinc-700">
+          <div className="flex items-center justify-between rounded-lg bg-white px-3 py-2 border border-zinc-200">
+            <span className="text-zinc-500">Email</span>
+            <span className="font-medium text-zinc-900">test@gmail.com</span>
+          </div>
+
+          <div className="flex items-center justify-between rounded-lg bg-white px-3 py-2 border border-zinc-200">
+            <span className="text-zinc-500">Password</span>
+            <span className="font-medium text-zinc-900">Test@1234</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
